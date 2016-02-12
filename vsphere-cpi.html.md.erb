@@ -4,6 +4,27 @@ title: vSphere CPI
 
 This topic describes cloud properties for different resources created by the vSphere CPI.
 
+## <a id='azs'></a> AZs
+
+Schema for `cloud_properties` section:
+
+* **datacenters** [Array, optional]: Array of datacenters to use for VM placement. Must have only one and it must match datacenter configured in global CPI options.
+    * **name** [String, required]: Datacenter name.
+    * **clusters** [Array, required]: Array of clusters to use for VM placement.
+
+Example:
+
+```yaml
+azs:
+- name: z1
+  cloud_properties:
+    datacenters:
+    - name: my-dc
+      clusters:
+      - {my-vsphere-cluster: {resource_pool: my-vsphere-res-pool}}
+```
+
+---
 ## <a id='networks'></a> Networks
 
 Schema for `cloud_properties` section used by manual network subnet:
@@ -26,7 +47,7 @@ networks:
 vSphere CPI does not support dynamic or vip networks.
 
 ---
-## <a id='resource-pools'></a> Resource Pools
+## <a id='resource-pools'></a> Resource Pools / VM Types
 
 Schema for `cloud_properties` section:
 
@@ -84,11 +105,11 @@ resource_pools:
 ```
 
 ---
-## <a id='disk-pools'></a> Disk Pools
+## <a id='disk-pools'></a> Disk Pools / Disk Types
 
 Schema for `cloud_properties` section:
 
-* **type** [String, optional]: Type of the [disk](http://pubs.vmware.com/vi-sdk/visdk250/ReferenceGuide/vim.VirtualDiskManager.VirtualDiskType.html): `thick`, `thin`, `preallocated`, `eagerZeroedThick`. Defaults to `thick`. Available in v12.
+* **type** [String, optional]: Type of the [disk](http://pubs.vmware.com/vi-sdk/visdk250/ReferenceGuide/vim.VirtualDiskManager.VirtualDiskType.html): `thick`, `thin`, `preallocated`, `eagerZeroedThick`. Defaults to `preallocated`. Available in v12.
 
 Example of 10GB disk:
 
